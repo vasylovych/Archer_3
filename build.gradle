@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+application {
+    mainClassName = 'org.archer.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'org.jsoup:jsoup:1.15.4'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation 'io.cucumber:cucumber-java:7.11.1'
+    implementation 'io.cucumber:cucumber-junit:7.11.1'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.8.1'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.8.1'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.2'
+    implementation group: 'com.sendgrid', name: 'sendgrid-java', version: '4.9.3'
+    implementation 'com.github.pengrad:java-telegram-bot-api:6.5.0'
+}
+
+shadowJar {
+    archiveBaseName.set('Archer_v2')
+    archiveClassifier.set('')
+    archiveVersion.set('1.0-SNAPSHOT')
+    manifest {
+        attributes 'Main-Class': 'org.archer.Main'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+// Define the main class to be executed
+def mainClassName = 'org.archer.Main'
+
+// Custom task to run the main class
+task runMain(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = mainClassName
+}
